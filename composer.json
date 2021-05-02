@@ -1,5 +1,5 @@
 {
-    "name": "teepluss/up2",
+    "name": "aigletter/laravel-attachments",
     "description": "UP2 is a file uploader with polymorphic relations.",
     "keywords": ["laravel", "upload", "resize"],
     "homepage": "https://github.com/teepluss/laravel-up2",
@@ -25,5 +25,15 @@
         },
         "files": ["src/helpers.php"]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Teepluss\\Up2\\Up2ServiceProvider"
+            ],
+            "aliases": {
+                "UP2": "Teepluss\\Up2\\Facades\\Up2"
+            }
+        }
+    }
 }
