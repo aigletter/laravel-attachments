@@ -4,6 +4,7 @@ namespace Teepluss\Up2;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
 
@@ -140,16 +141,16 @@ class LocalStorage extends StoreAbstract implements StoreInterface
             $imageManager = $this->imageManager->make($uploadedFile);
 
             // Before upload event.
-            if ($beforeUpload = array_get($this->config, 'beforeUpload')) {
+            if ($beforeUpload = Arr::get($this->config, 'beforeUpload')) {
                 $imageManager = $beforeUpload($imageManager);
             }
 
             if (in_array($extension, ['jpg', 'jpeg'])) {
-                $uploadedFile = $imageManager->encode('jpg', array_get($this->config, 'quality.jpeg', 90));
+                $uploadedFile = $imageManager->encode('jpg', Arr::get($this->config, 'quality.jpeg', 90));
             } elseif ($extension == 'png') {
-                $uploadedFile = $imageManager->encode('png', array_get($this->config, 'quality.png', 90));
+                $uploadedFile = $imageManager->encode('png', Arr::get($this->config, 'quality.png', 90));
             } elseif ($extension == 'gif') {
-                $uploadedFile = $imageManager->encode('gif', array_get($this->config, 'quality.gif', 90));
+                $uploadedFile = $imageManager->encode('gif', Arr::get($this->config, 'quality.gif', 90));
             } else {
                 $uploadedFile = $imageManager->encode();
             }
@@ -375,13 +376,13 @@ class LocalStorage extends StoreAbstract implements StoreInterface
                 // Path with the name include scale and extension.
                 $uploadPath = $path.$master['fileName'].'_'.$size.'.'.$master['fileExtension'];
 
-                if ($beforeResize = array_get($this->config, 'beforeResize')) {
+                if ($beforeResize = Arr::get($this->config, 'beforeResize')) {
                     $image = $beforeResize($image);
                 }
 
                 $image->fit($w, $h);
 
-                if ($afterResize = array_get($this->config, 'afterResize')) {
+                if ($afterResize = Arr::get($this->config, 'afterResize')) {
                     $image = $afterResize($image);
                 }
 

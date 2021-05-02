@@ -15,12 +15,14 @@ class UploaderManager extends Manager
      */
     protected function createLocalDriver()
     {
-        $config = $this->app['config']['up2.uploader'];
+        $config = $this->container['config']['up2.uploader'];
 
         $config = array_merge($config, $config['drivers']['local']);
         unset($config['drivers']);
 
-        return $this->repository(new LocalStorage($config, $this->app['request'], $this->app['files']));
+        return $this->repository(
+            new LocalStorage($config,
+                $this->container['request'], $this->container['files']));
     }
 
     /**
@@ -30,7 +32,7 @@ class UploaderManager extends Manager
      */
     protected function createS3Driver()
     {
-        $config = $this->app['config']['up2.uploader'];
+        $config = $this->container['config']['up2.uploader'];
 
         $config = array_merge($config, $config['drivers']['s3']);
         unset($config['drivers']);
@@ -56,7 +58,7 @@ class UploaderManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['up2.uploader.default'];
+        return $this->container['config']['up2.uploader.default'];
     }
 
     /**
@@ -67,7 +69,7 @@ class UploaderManager extends Manager
      */
     public function setDefaultDriver($name)
     {
-        $this->app['config']['up2.uploader.default'] = $name;
+        $this->container['config']['up2.uploader.default'] = $name;
     }
 
 }
